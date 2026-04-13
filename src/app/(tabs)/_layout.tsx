@@ -25,7 +25,7 @@ export default function TabLayout() {
           title: "Menu",
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={20} name="cutlery" color={color} />
+            <IconSymbol size={20} name="fork.knife" color={color} />
           ),
         }}
       />
@@ -34,7 +34,7 @@ export default function TabLayout() {
         options={{
           title: "Orders",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={20} name="list" color={color} />
+            <IconSymbol size={20} name="list.bullet" color={color} />
           ),
         }}
       />
