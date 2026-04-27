@@ -1,17 +1,22 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, Image } from "react-native";
 import Button from "@src/components/Button";
-import defaultPizzaImage from "@src/assets/images/default-pizza.jpg";
+import { defaultPizzaImage } from "@src/components/ProductListItem";
 import { useState } from "react";
+import { Colors } from "@src/constants/theme";
+import * as ImagePicker from 'expo-image-picker';
+import { Alert } from "react-native"; 
+import { Stack } from "expo-router";
 
 const CreateProductScreen = () => {
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [error, setError] = useState(""); 
-
+  const [image, setImage] = useState<string | null>(null);
   const resetFields = () => {
     setName("");
     setPrice("");
+    setImage(null);
   };  
 
   const validateInput = () => {
@@ -41,10 +46,37 @@ const CreateProductScreen = () => {
     resetFields();
   };  
 
+    const pickImage = async () => {
+    // No permissions request is necessary for launching the image library.
+    // Manually request permissions for videos on iOS when `allowsEditing` is set to `false`
+    // and `videoExportPreset` is `'Passthrough'` (the default), ideally before launching the picker
+    // so the app users aren't surprised by a system dialog after picking a video.
+    // See "Invoke permissions for videos" sub section for more details.
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      Alert.alert('Permission required', 'Permission to access the media library is required.');
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Image source={defaultPizzaImage} style={styles.image} />  
-      <Text style={styles.textButton}>Select Image</Text>
+      <Stack.Screen options={{ title: "Create Product" }} />
+
+      <Image source={{ uri: image || defaultPizzaImage }} style={styles.image} />
+      <Text onPress={pickImage} style={styles.textButton}>Select Image</Text>
 
       <Text style={styles.label}>Name</Text>
       <TextInput
