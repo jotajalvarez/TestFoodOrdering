@@ -11,26 +11,26 @@ const ProductDetailsScreen = () => {
   const product = products.find((p) => p.id.toString() === id);
 
   return (
-    <View>
-
-      <Stack.Screen 
-        options={{ 
+    <View style={styles.container}>
+      <Stack.Screen
+        options={{
           title: "Menu",
           headerRight: () => (
-          <Link href={{ pathname: "/(admin)/menu/create", params: { id } }} asChild>
-            <Pressable>
-              {({ pressed }) => (
-                <FontAwesome
-                  name="pencil"
-                  size={25}
-                  color={Colors.light.tint}
-                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                />
-              )}
-            </Pressable>
-          </Link>
-        ), 
-      }} />
+            <Link href={`/(admin)/menu/create?id=${id}`} asChild>
+              <Pressable hitSlop={10}>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="pencil"
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
 
       <Image
         source={{ uri: product?.image || defaultPizzaImage }}

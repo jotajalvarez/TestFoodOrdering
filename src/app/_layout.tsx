@@ -11,7 +11,8 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export const unstable_settings = {
-  anchor: "(user)",
+  // Start at root `index.tsx` so user can choose role.
+  anchor: "index",
 };
 
 export default function RootLayout() {
